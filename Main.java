@@ -5,6 +5,7 @@
 package com.lokey.onlineshopping;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -41,7 +42,7 @@ public class Main {
             itemList.add(new OrderItem(item, quantity));
         }
         Order item = new Order(customerName, customerPhone, customerAddress, itemList);
-        item.calculateTotalAmout();
+        item.calculateTotalAmount();
         orderList.add(item);
     };
 
