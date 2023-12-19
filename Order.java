@@ -27,7 +27,7 @@ public class Order {
         this.customerAddress = "USA";
         this.customerName = "";
         this.customerPhone = "0000000000";
-        
+
     }
 
     public Order(String customerName, String customerPhone, String customerAddress, List<OrderItem> itemList) {
@@ -103,19 +103,30 @@ public class Order {
         this.itemList = itemList;
     }
 
-    
-    
-    public void calculateTotalAmout(){
+    /**
+     * Calculates the total amount based on the items in the itemList.
+     */
+    public void calculateTotalAmount() {
+        // Get the number of items in the itemList
         final int n = itemList.size();
+
+        // Initialize the total amount
         double total = 0;
-        for(int i=0;i<n;i++){
-            total+=itemList.get(i).getItem().getPrd_price()*itemList.get(i).getQuantity();
+
+        // Iterate through each item in the itemList
+        for (int i = 0; i < n; i++) {
+            // Calculate the total amount by multiplying the item price with the quantity
+            total += itemList.get(i).getItem().getPrd_price() * itemList.get(i).getQuantity();
         }
-        setTotalAmount( total);
+
+        // Set the total amount
+        setTotalAmount(total);
     }
 
     @Override
     public String toString() {
-        return "Order{" + "id=" + id + ", orderDate=" + orderDate + ", customerName=" + customerName + ", customerPhone=" + customerPhone + ", customerAddress=" + customerAddress + ", totalAmount=" + totalAmount + ", status=" + status + ", itemList=" + itemList + '}';
+        return "Order{" + "id=" + id + ", orderDate=" + orderDate + ", customerName=" + customerName
+                + ", customerPhone=" + customerPhone + ", customerAddress=" + customerAddress + ", totalAmount="
+                + totalAmount + ", status=" + status + ", itemList=" + itemList + '}';
     }
 }
