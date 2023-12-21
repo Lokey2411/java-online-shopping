@@ -50,20 +50,20 @@ public class Main {
      * Prints the menu by iterating through the order list.
      */
     static void printMenu() {
-        // Create a temporary queue and initialize it with the order list
-        final Queue<Order> temp = new LinkedList<>(orderList);
-
-        // Iterate through the temporary queue
-        while (temp.peek() != null) {
-            // Remove and store the head of the queue
-            final Order head = temp.remove();
-
-            // Set the status of the order to true
-            head.setStatus(true);
-
-            // Print the order
-            System.out.println(head);
+        // Prompt the user to enter the order code
+        System.out.println("Enter the order code to search: ");
+        int orderCode = sc.nextInt();
+        final int n = orderList.size();
+        // Print the order information
+        System.out.println("Order information: ");
+        // Search The following item
+        Order[] tempArr = orderList.toArray(new Order[n]);
+        if(orderCode>n||orderCode<=0){
+            System.out.println("Order not found");
+            return;
         }
+        tempArr[orderCode-1].setStatus(true);
+        orderList = new LinkedList<>(Arrays.asList(tempArr));
     }
 
     /**
@@ -75,9 +75,9 @@ public class Main {
         // Print the size of the order list
         System.out.println(n);
         // Convert the order list to an array of Orders
-        Order[] tempArr = orderList.toArray(Order[]::new);
+        Order[] tempArr = orderList.toArray(new Order[n]);
         // Sort the array of Orders based on the total amount in descending order
-        Arrays.sort(tempArr, (o1, o2) -> Double.compare(o2.getTotalAmount(), o1.getTotalAmount()));
+        Arrays.sort(tempArr, (o1, o2) -> Double.compare(o1.getTotalAmount(), o2.getTotalAmount()));
         // Print each order in the sorted array
         for (Order order : tempArr) {
             System.out.println(order);
@@ -96,32 +96,108 @@ public class Main {
 
         // Print the order information
         System.out.println("Order information: ");
-
+        final int n = orderList.size();
         // Create a temporary queue to store the orders
-        Queue<Order> temp = orderList;
+        Order[] tempArr = orderList.toArray(new Order[n]);
 
         // Check if the order code is greater than the number of orders in the list
-        if (orderCode > orderList.size()) {
+        if (orderCode > n||orderCode<=0) {
+            System.out.println("No order found");
+            return;
+        }
+        // Print the desired order
+        System.out.println(tempArr[orderCode-1]);
+    }
+    static void printProducts(){
+        System.out.println("Enter the order code to search: ");
+        int orderCode = sc.nextInt();
+
+        // Print the order information
+        System.out.println("Order information: ");
+        final int n = orderList.size();
+        // Create a temporary queue to store the orders
+        Order[] tempArr = orderList.toArray(new Order[n]);
+
+
+        // Check if the order code is greater than the number of orders in the list
+        if (orderCode > n||orderCode<=0) {
             System.out.println("No order found");
             return;
         }
 
         // Remove the orders from the temporary queue until the desired order is reached
-        for (int i = 0; i < orderCode - 1; i++) {
-            temp.remove();
-        }
 
         // Print the desired order
-        System.out.println(temp.remove());
+        final Order item = tempArr[orderCode-1];
+        final int itemSize = item.getItemList().size();
+        for(int i=0;i<itemSize;i++)
+        System.out.println(item.getItemList().get(i));
     }
+    static void searchProducts(){
+        System.out.println("Enter id");
+        final int n = orderList.size();
+        int id = sc.nextInt();
+        Order[] tempArr = orderList.toArray(new Order[n]);
+        Order[] result = new Order[n];
+        int resultLength = 0;
+        for(int i=0;i<n;i++){
+            Product item = tempArr[i].getItemList().get(i).getItem();
+            if(item.getPrd_id() == id) {
+                result[resultLength++] = tempArr[i];
+            }
+        }
+        for(int i=0;i<resultLength;i++){
+            System.out.println(result[i]);
+        }
 
+    }
+    static void ProcessedOrder (){
+        // Prompt the user to enter the order code
+
+        // Print the order information
+        System.out.println("Order information: ");
+        final int n = orderList.size();
+        // Create a temporary queue to store the orders
+        Order[] tempArr = orderList.toArray(new Order[n]);
+
+        // Check if the order code is greater than the number of orders in the list
+        for(int i=0;i<n;i++){
+            if(tempArr[i].isStatus())System.out.println(tempArr[i]);
+        }
+    }
+    static void SearchProcessedOrder(){
+        // Prompt the user to enter the order code
+        System.out.println("Enter the order code to search: ");
+        int orderCode = sc.nextInt();
+
+        // Print the order information
+        System.out.println("Order information: ");
+        final int n = orderList.size();
+        // Create a temporary queue to store the orders
+        Order[] tempArr = orderList.toArray(new Order[n]);
+
+        // Check if the order code is greater than the number of orders in the list
+        if (orderCode > n||orderCode<=0) {
+            System.out.println("No order found");
+            return;
+        }
+        // Print the desired order
+        final Order item = tempArr[orderCode-1];
+        if(item.isStatus())System.out.println("Don da duoc duyet");
+        else System.out.println("Don chua duoc duyet");
+    }
     public static void main(String[] args) {
         while (true) {
+            System.out.println("-----------------------------------------------------");
             System.out.println("Nhap lua chon: ");
             System.out.println("1. Tao menu");
             System.out.println("2. Duyet don hang");
             System.out.println("3. Hien thi don hang theo gia tang dan");
-            System.out.println("4. Tim kiem don hang theo ma");
+            System.out.println("4. Tim kiem don hang");
+            System.out.println("5. Hien thi danh sach san pham");
+            System.out.println("6. Tim kiem san pham");
+            System.out.println("7. Hien thi danh sach da duyet");
+            System.out.println("8. Kiem tra don hang da duyet");    
             System.out.println("0. Thoat");
             final short choice = sc.nextShort();
             switch (choice) {
@@ -129,6 +205,10 @@ public class Main {
                 case 2 -> printMenu();
                 case 3 -> printSortedMenu();
                 case 4 -> searchMenu();
+                case 5 -> printProducts();
+                case 6 -> searchProducts();
+                case 7 -> ProcessedOrder();
+                case 8 -> SearchProcessedOrder();
                 default -> {
                     return;
                 }
