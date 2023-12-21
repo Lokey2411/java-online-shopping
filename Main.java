@@ -16,8 +16,17 @@ import java.util.Scanner;
  * @author ADMIN
  */
 public class Main {
+
     static Queue<Order> orderList = new LinkedList<>();
     static Scanner sc = new Scanner(System.in);
+    static final int NUM_PRODUCT = 5;
+    static Product[] productList = {
+        new Product("Product 1", 1000),
+        new Product(),
+        new Product(),
+        new Product(),
+        new Product(),
+    };
 
     static void createMenu() {
         System.out.println("Nhap ten khach hang: ");
@@ -33,10 +42,11 @@ public class Main {
         for (int i = 0; i < n; i++) {
             System.out.println("Nhap ten san pham: ");
             sc.nextLine();
-            String prd_name = sc.nextLine();
-            System.out.println("Nhap gia san pham: ");
-            double prd_price = sc.nextDouble();
-            Product item = new Product(prd_name, prd_price);
+            for(int j=0;j<5;j++){
+                System.out.println((j+1)+" "+ productList[j].getPrd_name());
+            }
+            int index = sc.nextInt();
+            Product item = productList[index];
             System.out.println("Nhap so luong/ khoi luong san pham: ");
             int quantity = sc.nextInt();
             itemList.add(new OrderItem(item, quantity));
@@ -44,7 +54,9 @@ public class Main {
         Order item = new Order(customerName, customerPhone, customerAddress, itemList);
         item.calculateTotalAmount();
         orderList.add(item);
-    };
+    }
+
+    ;
 
     /**
      * Prints the menu by iterating through the order list.
@@ -58,11 +70,11 @@ public class Main {
         System.out.println("Order information: ");
         // Search The following item
         Order[] tempArr = orderList.toArray(new Order[n]);
-        if(orderCode>n||orderCode<=0){
+        if (orderCode > n || orderCode <= 0) {
             System.out.println("Order not found");
             return;
         }
-        tempArr[orderCode-1].setStatus(true);
+        tempArr[orderCode - 1].setStatus(true);
         orderList = new LinkedList<>(Arrays.asList(tempArr));
     }
 
@@ -85,9 +97,8 @@ public class Main {
     }
 
     /**
-     * Prompts the user to enter an order code and searches for the corresponding
-     * order
-     * information in the orderList queue.
+     * Prompts the user to enter an order code and searches for the
+     * corresponding order information in the orderList queue.
      */
     static void searchMenu() {
         // Prompt the user to enter the order code
@@ -101,14 +112,15 @@ public class Main {
         Order[] tempArr = orderList.toArray(new Order[n]);
 
         // Check if the order code is greater than the number of orders in the list
-        if (orderCode > n||orderCode<=0) {
+        if (orderCode > n || orderCode <= 0) {
             System.out.println("No order found");
             return;
         }
         // Print the desired order
-        System.out.println(tempArr[orderCode-1]);
+        System.out.println(tempArr[orderCode - 1]);
     }
-    static void printProducts(){
+
+    static void printProducts() {
         System.out.println("Enter the order code to search: ");
         int orderCode = sc.nextInt();
 
@@ -118,40 +130,41 @@ public class Main {
         // Create a temporary queue to store the orders
         Order[] tempArr = orderList.toArray(new Order[n]);
 
-
         // Check if the order code is greater than the number of orders in the list
-        if (orderCode > n||orderCode<=0) {
+        if (orderCode > n || orderCode <= 0) {
             System.out.println("No order found");
             return;
         }
 
         // Remove the orders from the temporary queue until the desired order is reached
-
         // Print the desired order
-        final Order item = tempArr[orderCode-1];
+        final Order item = tempArr[orderCode - 1];
         final int itemSize = item.getItemList().size();
-        for(int i=0;i<itemSize;i++)
-        System.out.println(item.getItemList().get(i));
+        for (int i = 0; i < itemSize; i++) {
+            System.out.println(item.getItemList().get(i));
+        }
     }
-    static void searchProducts(){
+
+    static void searchProducts() {
         System.out.println("Enter id");
         final int n = orderList.size();
         int id = sc.nextInt();
         Order[] tempArr = orderList.toArray(new Order[n]);
         Order[] result = new Order[n];
         int resultLength = 0;
-        for(int i=0;i<n;i++){
+        for (int i = 0; i < n; i++) {
             Product item = tempArr[i].getItemList().get(i).getItem();
-            if(item.getPrd_id() == id) {
+            if (item.getPrd_id() == id) {
                 result[resultLength++] = tempArr[i];
             }
         }
-        for(int i=0;i<resultLength;i++){
+        for (int i = 0; i < resultLength; i++) {
             System.out.println(result[i]);
         }
 
     }
-    static void ProcessedOrder (){
+
+    static void ProcessedOrder() {
         // Prompt the user to enter the order code
 
         // Print the order information
@@ -161,11 +174,14 @@ public class Main {
         Order[] tempArr = orderList.toArray(new Order[n]);
 
         // Check if the order code is greater than the number of orders in the list
-        for(int i=0;i<n;i++){
-            if(tempArr[i].isStatus())System.out.println(tempArr[i]);
+        for (int i = 0; i < n; i++) {
+            if (tempArr[i].isStatus()) {
+                System.out.println(tempArr[i]);
+            }
         }
     }
-    static void SearchProcessedOrder(){
+
+    static void SearchProcessedOrder() {
         // Prompt the user to enter the order code
         System.out.println("Enter the order code to search: ");
         int orderCode = sc.nextInt();
@@ -177,16 +193,21 @@ public class Main {
         Order[] tempArr = orderList.toArray(new Order[n]);
 
         // Check if the order code is greater than the number of orders in the list
-        if (orderCode > n||orderCode<=0) {
+        if (orderCode > n || orderCode <= 0) {
             System.out.println("No order found");
             return;
         }
         // Print the desired order
-        final Order item = tempArr[orderCode-1];
-        if(item.isStatus())System.out.println("Don da duoc duyet");
-        else System.out.println("Don chua duoc duyet");
+        final Order item = tempArr[orderCode - 1];
+        if (item.isStatus()) {
+            System.out.println("Don da duoc duyet");
+        } else {
+            System.out.println("Don chua duoc duyet");
+        }
     }
+
     public static void main(String[] args) {
+
         while (true) {
             System.out.println("-----------------------------------------------------");
             System.out.println("Nhap lua chon: ");
@@ -197,18 +218,26 @@ public class Main {
             System.out.println("5. Hien thi danh sach san pham");
             System.out.println("6. Tim kiem san pham");
             System.out.println("7. Hien thi danh sach da duyet");
-            System.out.println("8. Kiem tra don hang da duyet");    
+            System.out.println("8. Kiem tra don hang da duyet");
             System.out.println("0. Thoat");
             final short choice = sc.nextShort();
             switch (choice) {
-                case 1 -> createMenu();
-                case 2 -> printMenu();
-                case 3 -> printSortedMenu();
-                case 4 -> searchMenu();
-                case 5 -> printProducts();
-                case 6 -> searchProducts();
-                case 7 -> ProcessedOrder();
-                case 8 -> SearchProcessedOrder();
+                case 1 ->
+                    createMenu();
+                case 2 ->
+                    printMenu();
+                case 3 ->
+                    printSortedMenu();
+                case 4 ->
+                    searchMenu();
+                case 5 ->
+                    printProducts();
+                case 6 ->
+                    searchProducts();
+                case 7 ->
+                    ProcessedOrder();
+                case 8 ->
+                    SearchProcessedOrder();
                 default -> {
                     return;
                 }
